@@ -3,13 +3,13 @@ import Sidebar from "./components/Sidebar"
 
 function App() {
     return (
-        <main className="max-w-[1440px] mx-auto px-4">
+        <main className="max-w-[1440px] mx-auto px-4 h-screen overflow-hidden flex flex-col">
             <header className="border-b py-5 mb-4">
                 <h1 className="text-xl md:text-2xl font-bold mb-2">🚛 Fleet Tracking Dashboard</h1>
                 <p className="text-sm">Real time monitoring | Case Study</p>
             </header>
 
-            <section className="dashboard-wrapper flex gap-4">
+            <section className="dashboard-wrapper flex gap-4 h-full flex-1 overflow-hidden">
                 <Sidebar />
                 <FleetTable />
             </section>

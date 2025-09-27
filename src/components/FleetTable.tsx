@@ -16,7 +16,7 @@ const FleetTable = () => {
     }
 
     return (
-        <div className="table-wrapper width-[80%] overflow-hidden">
+        <div className="table-wrapper width-[80%] overflow-auto h-full">
             <Table>
                 <TableHeader>
                     <TableRow>
