@@ -11,9 +11,8 @@ export const useVehicleSocket = (
 
         webSocket.onopen = () => onStatusChange(true);
         webSocket.onmessage = (event) => onMessage(event.data);
-        webSocket.onerror = (e) => {
+        webSocket.onerror = () => {
             onError();
-            console.log("EEORRORORORO", e);
             webSocket.close();
             onStatusChange(false);
         };

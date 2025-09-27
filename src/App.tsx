@@ -1,3 +1,4 @@
+import FleetTable from "./components/FleetTable"
 import Sidebar from "./components/Sidebar"
 
 function App() {
@@ -8,8 +9,9 @@ function App() {
                 <p className="text-sm">Real time monitoring | Case Study</p>
             </header>
 
-            <section className="dashboard-wrapper">
+            <section className="dashboard-wrapper flex gap-4">
                 <Sidebar />
+                <FleetTable />
             </section>
         </main>
     )

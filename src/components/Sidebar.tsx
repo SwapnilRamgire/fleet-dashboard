@@ -8,7 +8,7 @@ import { Label } from "./ui/label";
 const Sidebar = () => {
     const { isUpdatingLive, filter, setFilter } = useVehicles();
     return (
-        <div className="left-wrap max-w-[300px] pt-4 flex flex-col">
+        <div className="left-wrap w-[calc(20% - 16px)] pt-4 flex flex-col shrink-0 h-fit sticky top-0">
             <LiveStatusIndicator isUpdatingLive={isUpdatingLive} />
             <VehicleFilters activeFilter={filter} onChange={(filter) => setFilter(filter)} />
         </div>

@@ -15,7 +15,9 @@ const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     useVehicleSocket(
         (data) => {
             const parsedData = JSON.parse(data);
-            setVehicles(parsedData.data)
+            console.log("Setting new data", parsedData.data);
+
+            setVehicles(parsedData.data);
         },
         (live) => setIsUpdatingLive(live),
         () => console.error("Socket error")
