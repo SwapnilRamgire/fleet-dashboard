@@ -4,7 +4,7 @@ import useFetchVehicles from "./useFetchVehicles";
 import { useVehicleSocket } from "./useSocketVehicles";
 
 const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const { vehicles, setVehicles, loading, error, loadVehicles } = useFetchVehicles();
+    const { vehicles, setVehicles, loading, error, loadVehicles, filter, setFilter } = useFetchVehicles();
     const [isUpdatingLive, setIsUpdatingLive] = useState<boolean | null>(null);
     const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(null);
 
@@ -22,7 +22,7 @@ const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     );
 
     return (
-        <VehiclesContext.Provider value={{ vehicles, loading, error, isUpdatingLive, selectedVehicleId, updateVehicles: setVehicles, setSelectedVehicleId }}>
+        <VehiclesContext.Provider value={{ vehicles, loading, error, isUpdatingLive, selectedVehicleId, filter, updateVehicles: setVehicles, setSelectedVehicleId, setFilter }}>
             {children}
         </VehiclesContext.Provider>
     )

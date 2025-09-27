@@ -1,11 +1,12 @@
 import { useCallback, useState } from "react";
-import type { Vehicle } from "./types";
+import type { Filters, Vehicle } from "./types";
 import { fetchVehicles } from "./fetchVehicles";
 
 const useFetchVehicles = () => {
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [filter, setFilter] = useState<Filters>("all");
 
     const loadVehicles = useCallback(async () => {
         setLoading(true);
@@ -20,7 +21,7 @@ const useFetchVehicles = () => {
         }
     }, []);
 
-    return { vehicles, setVehicles, loading, error, loadVehicles };
+    return { vehicles, setVehicles, loading, error, loadVehicles, filter, setFilter };
 }
 
 export default useFetchVehicles;

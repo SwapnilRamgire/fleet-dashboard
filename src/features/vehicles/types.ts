@@ -30,12 +30,16 @@ export interface VehicleResponse {
     timestamp: string;
 }
 
+export type Filters = "all" | "idle" | "en_route" | "delivered";
+
 export interface VehiclesContextValues {
     vehicles: Vehicle[];
     loading: boolean;
     error: boolean;
     isUpdatingLive: boolean | null;
     selectedVehicleId: string | null;
+    filter: Filters;
     updateVehicles: (newVehicle: Vehicle[]) => void;
     setSelectedVehicleId: (newSelectedVehicleId: string | null) => void;
+    setFilter: (newFilter: Filters) => void;
 }
