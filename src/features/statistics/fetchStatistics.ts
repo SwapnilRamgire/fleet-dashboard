@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/config";
-import type { StatisticksResponse } from "@/types/statistic";
+import type { StatisticksResponse } from "@/features/statistics/types";
 
 export const fetchStatistics = async (): Promise<StatisticksResponse> => {
     const response = await fetch(`${BASE_URL}/api/statistics`);

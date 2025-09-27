@@ -15,15 +15,14 @@ function App() {
 }
 
 function Temp() {
-    const { vehicles, loading } = useVehicles();
-
+    const { loading, isUpdatingLive } = useVehicles();
     if (loading) return <p>Loading...</p>
-    console.log(vehicles);
 
     return (
-        <div>MEow</div>
+        <div>
+            {isUpdatingLive && (<p>Updating live baby</p>)}
+        </div>
     )
-
 }
 
 export default App
