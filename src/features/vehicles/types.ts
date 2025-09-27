@@ -29,3 +29,13 @@ export interface VehicleResponse {
     data: Vehicle;
     timestamp: string;
 }
+
+export interface VehiclesContextValues {
+    vehicles: Vehicle[];
+    loading: boolean;
+    error: boolean;
+    isUpdatingLive: boolean | null;
+    selectedVehicleId: string | null;
+    updateVehicles: (newVehicle: Vehicle[]) => void;
+    setSelectedVehicleId: (newSelectedVehicleId: string | null) => void;
+}

@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/config";
-import type { VehiclesResponse } from "@/types/vehicle";
+import type { VehiclesResponse } from "@/features/vehicles/types";
 
 export const fetchVehicles = async (): Promise<VehiclesResponse> => {
     const response = await fetch(`${BASE_URL}/api/vehicles`);
