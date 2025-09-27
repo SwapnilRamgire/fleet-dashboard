@@ -1,4 +1,4 @@
-export interface DashboardStats {
+export interface Statisticks {
     total: number;
     idle: number;
     en_route: number;
@@ -7,7 +7,7 @@ export interface DashboardStats {
     timestamp: string;
 }
 
-export interface DashboardApiResponse {
+export interface StatisticksResponse {
     success: boolean;
-    data: DashboardStats;
+    data: Statisticks;
 }
