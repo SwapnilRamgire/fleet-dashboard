@@ -1,0 +1,31 @@
+interface Location {
+    lat: number;
+    lng: number;
+}
+
+export interface Vehicle {
+    id: string;
+    vehicleNumber: string;
+    driverName: string;
+    driverPhone: string;
+    status: "idle" | "en_route" | "delivered";
+    destination: string;
+    currentLocation: Location;
+    speed: number;
+    lastUpdated: string;
+    estimatedArrival: string | null;
+    batteryLevel: number;
+    fuelLevel: number;
+}
+
+export interface VehiclesResponse {
+    success: boolean;
+    data: Vehicle[];
+    total: number;
+    timestamp: string;
+}
+export interface VehicleResponse {
+    success: boolean;
+    data: Vehicle;
+    timestamp: string;
+}
