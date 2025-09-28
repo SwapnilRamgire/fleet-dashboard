@@ -3,7 +3,7 @@ import Sidebar from "./components/Sidebar"
 
 function App() {
     return (
-        <main className="max-w-[1440px] mx-auto px-4 h-screen overflow-hidden flex flex-col">
+        <main style={{ height: "100dvh" }} className="max-w-[1440px] mx-auto px-4 h-screen overflow-hidden flex flex-col pb-2 md:pb-3">
             <header className="border-b py-2 md:py-5 mb-2 md:mb-4">
                 <h1 className="text-xl md:text-2xl font-bold mb-1 md:mb-2">🚛 Fleet Tracking Dashboard</h1>
                 <p className="text-sm">Real time monitoring | Case Study</p>

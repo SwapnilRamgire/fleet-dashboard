@@ -42,7 +42,7 @@ const Statistics = () => {
 
 const UPDATE_INTERVAL = 180_000;
 const LastUpdatedBadge = ({ lastUpdated }: { lastUpdated: string }) => {
-    const [now, setNow] = useState(Date.now());
+    const [now, setNow] = useState(new Date(lastUpdated).getTime());
 
     useEffect(() => {
         const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -62,7 +62,8 @@ const LastUpdatedBadge = ({ lastUpdated }: { lastUpdated: string }) => {
 
     return (
         <div className="last-updated-live-lable text-xs flex gap-1 items-center mt-2 bg-accent py-1 px-2 rounded-sm">
-            <ClockFading width={14} /> Updated {formatTime(secondsAgo)} ago | Next update in {formatTime(nextIn)}
+            {/* (now - last <= 0) added this handling since server was sending lastUpdated timestamp 2-3s ahead */}
+            <ClockFading width={14} /> {(now - last <= 0) ? "Updated few seconds ago" : `Updated ${formatTime(secondsAgo)} ago | Next update in ${formatTime(nextIn)}`}
         </div>
     )
 }

@@ -51,10 +51,9 @@ const FleetTable = () => {
                     {filteredVehicles.map((vehicle) => (
                         <TableRow
                             key={vehicle.id}
-                            className="cursor-pointer hover:bg-muted/50 transition animate-in"
-                            onClick={() => setSelectedVehicle(vehicle.id)}
+                            className="cursor-pointer hover:bg-muted/50 transition animate-in cursor-default"
                         >
-                            <TableCell>{vehicle.vehicleNumber}</TableCell>
+                            <TableCell className="text-blue-500 underline cursor-pointer" onClick={() => setSelectedVehicle(vehicle.id)}>{vehicle.vehicleNumber}</TableCell>
                             <TableCell>{vehicle.driverName}</TableCell>
                             <TableCell>
                                 <Badge
