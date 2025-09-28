@@ -6,12 +6,11 @@ import { Skeleton } from "./ui/skeleton";
 
 const Statistics = () => {
     const { data, loading } = useStatistics();
-
     return (
         <div className="statistics">
             <Label className="text-sm mb-2"><ChartLine width={14} /> Fleet Statistics</Label>
             {
-                loading ? <Skeleton className="w-full h-20 mb-4"></Skeleton> : (
+                loading ? <Skeleton className="w-full h-28 mb-4"></Skeleton> : (
                     <>
                         <div className="statistics-wrapper grid grid-cols-2 gap-1">
                             <div className="card border border-accent p-2 rounded-sm text-md font-bold flex items-center justify-center flex-col">
@@ -43,7 +42,6 @@ const Statistics = () => {
 
 const UPDATE_INTERVAL = 180_000;
 const LastUpdatedBadge = ({ lastUpdated }: { lastUpdated: string }) => {
-
     const [now, setNow] = useState(Date.now());
 
     useEffect(() => {
@@ -56,16 +54,15 @@ const LastUpdatedBadge = ({ lastUpdated }: { lastUpdated: string }) => {
     const nextIn = Math.max(0, UPDATE_INTERVAL / 1000 - secondsAgo);
 
     const formatTime = (secs: number) => {
-        if (secs < 60) return `${secs}s`;
+        if (secs <= 0) return `few seconds`;
+        if (secs < 60) return `~${secs}s`;
         const min = Math.floor(secs / 60);
         return `~${min}m`;
-        const s = secs % 60;
-        return s > 0 ? `${min}m ${s}s` : `${min}m`;
     };
 
     return (
         <div className="last-updated-live-lable text-xs flex gap-1 items-center mt-2 bg-accent py-1 px-2 rounded-sm">
-            <ClockFading width={14} /> Updated {formatTime(secondsAgo)} ago | Next update in {formatTime(nextIn)}
+            <ClockFading width={14} /> Updated {formatTime(secondsAgo)} ago {secondsAgo > 0 && `| Next update in ${formatTime(nextIn)}`}
         </div>
     )
 }

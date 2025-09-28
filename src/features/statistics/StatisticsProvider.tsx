@@ -3,14 +3,14 @@ import StatisticsContext from "./StatisticsContext";
 import useFetchStatistics from "./useFetchStatistics";
 
 const StatisticsProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const { statistics, loading, error, loadStatistics } = useFetchStatistics();
+    const { statistics, loading, error, loadStatistics, setStatistics } = useFetchStatistics();
 
     useEffect(() => {
         loadStatistics()
     }, [loadStatistics])
 
     return (
-        <StatisticsContext.Provider value={{ data: statistics, loading, error }}>
+        <StatisticsContext.Provider value={{ data: statistics, loading, error, setStatistics }}>
             {children}
         </StatisticsContext.Provider>
     )

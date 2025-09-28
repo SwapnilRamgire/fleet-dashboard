@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Label } from "./ui/label";
 import Statistics from "./Statistics";
 import { Skeleton } from "./ui/skeleton";
+import useStatistics from "@/features/statistics/useStatistics";
 
 const Sidebar = () => {
     return (
@@ -19,12 +20,13 @@ const Sidebar = () => {
 
 const VehicleFilters = () => {
     const { filter, setFilter, loading } = useVehicles();
+    const { data } = useStatistics();
 
     const FILTER_OPTIONS: { value: Filters; label: string }[] = [
-        { value: "all", label: "All" },
-        { value: "idle", label: "Idle" },
-        { value: "en_route", label: "En Route" },
-        { value: "delivered", label: "Delivered" },
+        { value: "all", label: `All (${data.total})` },
+        { value: "idle", label: `Idle (${data.idle})` },
+        { value: "en_route", label: `En Route (${data.en_route})` },
+        { value: "delivered", label: `Delivered (${data.delivered})` },
     ];
 
     return (

@@ -27,7 +27,7 @@ const useFetchStatistics = () => {
         }
     }, []);
 
-    return { statistics, loading, error, loadStatistics };
+    return { statistics, loading, error, loadStatistics, setStatistics };
 }
 
 export default useFetchStatistics;

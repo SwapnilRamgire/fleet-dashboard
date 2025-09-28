@@ -16,4 +16,5 @@ export interface StatisticsContextValues {
     data: Statistics;
     loading: boolean;
     error: boolean;
+    setStatistics: (newStatistics: Statistics) => void;
 }
