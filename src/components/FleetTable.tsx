@@ -7,7 +7,7 @@ import { Progress } from "./ui/progress";
 import { Skeleton } from "./ui/skeleton";
 
 const FleetTable = () => {
-    const { vehicles, filter, setSelectedVehicle, selectedVehicle, isUpdatingLive, loading } = useVehicles();
+    const { vehicles, filter, setSelectedVehicle, isUpdatingLive, loading } = useVehicles();
 
     const filteredVehicles = vehicles.filter(vehicle => (filter === "all" || vehicle.status === filter))
 
@@ -52,7 +52,7 @@ const FleetTable = () => {
                         <TableRow
                             key={vehicle.id}
                             className="cursor-pointer hover:bg-muted/50 transition animate-in"
-                            onClick={() => setSelectedVehicle(vehicle)}
+                            onClick={() => setSelectedVehicle(vehicle.id)}
                         >
                             <TableCell>{vehicle.vehicleNumber}</TableCell>
                             <TableCell>{vehicle.driverName}</TableCell>
@@ -78,83 +78,96 @@ const FleetTable = () => {
                 </TableBody>
             </Table>
 
-            <Dialog open={!!selectedVehicle} onOpenChange={() => setSelectedVehicle(null)}>
-                <DialogContent>
-                    <DialogHeader className="border-b pb-3">
-                        <DialogTitle className="flex items-center gap-2"><Truck /> {selectedVehicle?.vehicleNumber}</DialogTitle>
-                        <DialogDescription className="flex items-center gap-1"><User2 width={12} />{selectedVehicle?.driverName} | <span className="capitalize">{selectedVehicle?.status.replace("_", " ")}</span></DialogDescription>
-                    </DialogHeader>
-                    <div className="vehicle-meta flex flex-col gap-2 max-h-[70vh] overflow-auto md:grid md:grid-cols-2 md:gap-3">
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><Milestone width={14} />Status</div>
-                            <p className="font-bold capitalize">
-                                {selectedVehicle?.status.replace("_", " ")}
-                            </p>
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><Gauge width={14} />Speed</div>
-                            <p className="font-bold">
-                                {selectedVehicle?.speed} mph
-                            </p>
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><User2 width={14} />Driver</div>
-                            <p className="font-bold">
-                                {selectedVehicle?.driverName}
-                            </p>
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><PhoneCallIcon width={14} />Phone</div>
-                            <a className="font-bold" href={`tel:${selectedVehicle?.driverPhone}`}>
-                                {selectedVehicle?.driverPhone}
-                            </a>
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><MapPinned width={14} />Destination</div>
-                            <p className="font-bold">
-                                {selectedVehicle?.destination}
-                            </p>
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><Navigation width={14} />Destination</div>
-                            <p className="font-bold">
-                                {selectedVehicle?.currentLocation.lat.toFixed(6)}, {selectedVehicle?.currentLocation.lng.toFixed(6)}
-                            </p>
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><Battery width={14} />Battery Level</div>
-                            <p className="font-bold mb-1">
-                                {selectedVehicle?.batteryLevel}%
-                            </p>
-                            <Progress className="h-1.5" value={selectedVehicle?.batteryLevel} />
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><Fuel width={14} />Fuel Level</div>
-                            <p className="font-bold mb-1">
-                                {selectedVehicle?.fuelLevel}%
-                            </p>
-                            <Progress className="h-1.5" value={selectedVehicle?.fuelLevel} />
-                        </div>
-                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                            <div className="header-line flex text-xs items-center gap-1 uppercase"><History width={14} />Last Updated</div>
-                            <p className="font-bold mb-1">
-                                {selectedVehicle?.lastUpdated && new Date(selectedVehicle.lastUpdated).toLocaleString([], { hour12: false })}
-                            </p>
-                        </div>
-                        {
-                            selectedVehicle?.estimatedArrival && (
-                                <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
-                                    <div className="header-line flex text-xs items-center gap-1 uppercase"><Hourglass width={14} />ETA</div>
-                                    <p className="font-bold mb-1">
-                                        {selectedVehicle?.estimatedArrival && new Date(selectedVehicle.estimatedArrival).toLocaleString([], { hour12: false })}
-                                    </p>
-                                </div>
-                            )
-                        }
-                    </div>
-                </DialogContent>
-            </Dialog>
+            <Popup />
+
         </div>
+    )
+}
+
+const Popup = () => {
+    const { vehicles, setSelectedVehicle, selectedVehicle } = useVehicles();
+    if (!selectedVehicle) return;
+
+    const selectedVehicleItem = vehicles.find(vehicle => vehicle.id === selectedVehicle);
+    if (!selectedVehicleItem) return
+
+    return (
+        <Dialog open={!!selectedVehicleItem} onOpenChange={() => setSelectedVehicle(null)}>
+            <DialogContent>
+                <DialogHeader className="border-b pb-3">
+                    <DialogTitle className="flex items-center gap-2"><Truck /> {selectedVehicleItem.vehicleNumber}</DialogTitle>
+                    <DialogDescription className="flex items-center gap-1"><User2 width={12} />{selectedVehicleItem.driverName} | <span className="capitalize">{selectedVehicleItem.status.replace("_", " ")}</span></DialogDescription>
+                </DialogHeader>
+                <div className="vehicle-meta flex flex-col gap-2 max-h-[70vh] overflow-auto md:grid md:grid-cols-2 md:gap-3">
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><Milestone width={14} />Status</div>
+                        <p className="font-bold capitalize">
+                            {selectedVehicleItem.status.replace("_", " ")}
+                        </p>
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><Gauge width={14} />Speed</div>
+                        <p className="font-bold">
+                            {selectedVehicleItem.speed} mph
+                        </p>
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><User2 width={14} />Driver</div>
+                        <p className="font-bold">
+                            {selectedVehicleItem.driverName}
+                        </p>
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><PhoneCallIcon width={14} />Phone</div>
+                        <a className="font-bold" href={`tel:${selectedVehicleItem.driverPhone}`}>
+                            {selectedVehicleItem.driverPhone}
+                        </a>
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><MapPinned width={14} />Destination</div>
+                        <p className="font-bold">
+                            {selectedVehicleItem.destination}
+                        </p>
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><Navigation width={14} />Destination</div>
+                        <p className="font-bold">
+                            {selectedVehicleItem.currentLocation.lat.toFixed(6)}, {selectedVehicleItem.currentLocation.lng.toFixed(6)}
+                        </p>
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><Battery width={14} />Battery Level</div>
+                        <p className="font-bold mb-1">
+                            {selectedVehicleItem.batteryLevel}%
+                        </p>
+                        <Progress className="h-1.5" value={selectedVehicleItem.batteryLevel} />
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><Fuel width={14} />Fuel Level</div>
+                        <p className="font-bold mb-1">
+                            {selectedVehicleItem.fuelLevel}%
+                        </p>
+                        <Progress className="h-1.5" value={selectedVehicleItem.fuelLevel} />
+                    </div>
+                    <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                        <div className="header-line flex text-xs items-center gap-1 uppercase"><History width={14} />Last Updated</div>
+                        <p className="font-bold mb-1">
+                            {new Date(selectedVehicleItem.lastUpdated).toLocaleString([], { hour12: false })}
+                        </p>
+                    </div>
+                    {
+                        selectedVehicleItem.estimatedArrival && (
+                            <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                                <div className="header-line flex text-xs items-center gap-1 uppercase"><Hourglass width={14} />ETA</div>
+                                <p className="font-bold mb-1">
+                                    {new Date(selectedVehicleItem.estimatedArrival).toLocaleString([], { hour12: false })}
+                                </p>
+                            </div>
+                        )
+                    }
+                </div>
+            </DialogContent>
+        </Dialog>
     )
 }
 
