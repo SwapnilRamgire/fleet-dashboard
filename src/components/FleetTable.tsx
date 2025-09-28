@@ -4,12 +4,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Dialog, DialogHeader, DialogContent, DialogDescription, DialogTitle } from "./ui/dialog";
 import { Battery, Fuel, Gauge, MapPinned, Milestone, Navigation, PhoneCallIcon, Truck, User2 } from "lucide-react";
 import { Progress } from "./ui/progress";
+import { Skeleton } from "./ui/skeleton";
 
 const FleetTable = () => {
-    const { vehicles, filter, setSelectedVehicle, selectedVehicle } = useVehicles();
+    const { vehicles, filter, setSelectedVehicle, selectedVehicle, isUpdatingLive, loading } = useVehicles();
 
     const filteredVehicles = vehicles.filter(vehicle => (filter === "all" || vehicle.status === filter))
 
+    if (loading) {
+        return (
+            <Skeleton className="w-full h-full"></Skeleton>
+        )
+    }
     if (!filteredVehicles.length) {
         return (
             <div className="p-4 text-center text-muted-foreground">
@@ -19,7 +25,14 @@ const FleetTable = () => {
     }
 
     return (
-        <div className="table-wrapper width-[80%] overflow-auto h-full" style={{ scrollbarWidth: "thin" }}>
+        <div className="table-wrapper flex-1 overflow-auto h-fit max-h-full" style={{ scrollbarWidth: "thin" }}>
+            <div className="heading-wrapper flex justify-between items-center mb-2 sticky top-0 left-0">
+                <h2 className="font-bold text-xl capitalize">
+                    {filter !== "all" ? filter.replace("_", " ") : ""} Vehicles ({filteredVehicles.length})
+                </h2>
+                {isUpdatingLive && <Badge variant={"default"} className="text-xs px-3 py-1 font-bold uppercase rounded-full border border-green-800">Live</Badge>}
+            </div>
+
             <Table>
                 <TableHeader className="sticky top-0 bg-accent">
                     <TableRow>
@@ -47,23 +60,19 @@ const FleetTable = () => {
                                 <Badge
                                     className="uppercase"
                                     variant={
-                                        vehicle.status === "idle"
-                                            ? "secondary"
-                                            : vehicle.status === "en_route"
-                                                ? "default"
-                                                : vehicle.status === "delivered"
-                                                    ? "outline"
-                                                    : "secondary"
+                                        vehicle.status === "idle" ? "secondary"
+                                            : vehicle.status === "delivered" ? "default"
+                                                : "outline"
                                     }
                                 >
                                     {vehicle.status.replace("_", " ")}
                                 </Badge>
                             </TableCell>
-                            <TableCell>{vehicle.speed}</TableCell>
+                            <TableCell><Badge variant={"secondary"} className="rounded-3xl">{vehicle.speed} mph</Badge></TableCell>
                             <TableCell>{vehicle.destination}</TableCell>
-                            <TableCell>{vehicle.estimatedArrival || "-"}</TableCell>
-                            <TableCell>{vehicle.lastUpdated}</TableCell>
-                            <TableCell>{vehicle.currentLocation.lat}, {vehicle.currentLocation.lng}</TableCell>
+                            <TableCell>{vehicle.estimatedArrival ? new Date(vehicle.estimatedArrival).toLocaleString([], { hour12: false }) : "-"}</TableCell>
+                            <TableCell>{new Date(vehicle.lastUpdated).toLocaleString([], { hour12: false })}</TableCell>
+                            <TableCell>{vehicle.currentLocation.lat.toFixed(4)}, {vehicle.currentLocation.lng.toFixed(4)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

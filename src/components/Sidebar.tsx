@@ -10,7 +10,7 @@ import useStatistics from "@/features/statistics/useStatistics";
 
 const Sidebar = () => {
     return (
-        <div className="left-wrap w-[calc(20%-16px)] flex flex-col shrink-0 h-fit sticky top-0">
+        <div className="left-wrap w-full md:w-[284px] flex flex-col shrink-0 h-fit sticky top-0">
             <LiveStatusIndicator />
             <VehicleFilters />
             <Statistics />
@@ -84,7 +84,7 @@ const LiveStatusIndicator = () => {
     return (
         <div
             className={cn(
-                "flex items-center gap-2 w-full p-4 rounded-md border transition-colors mb-4",
+                "flex items-center gap-2 w-full p-2 justify-center rounded-md border transition-colors mb-4",
                 state.classes
             )}
         >

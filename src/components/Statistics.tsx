@@ -12,22 +12,22 @@ const Statistics = () => {
             {
                 loading ? <Skeleton className="w-full h-28 mb-4"></Skeleton> : (
                     <>
-                        <div className="statistics-wrapper grid grid-cols-2 gap-1">
-                            <div className="card border border-accent p-2 rounded-sm text-md font-bold flex items-center justify-center flex-col">
+                        <div className="statistics-wrapper flex md:grid md:grid-cols-2 gap-1">
+                            <div className="card border border-accent p-1 flex-1 md:p-2 rounded-sm md:text-md font-bold flex items-center justify-center flex-col">
                                 <strong>{data.total}</strong>
-                                <span className="text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"> <Users width={12} />Total Fleets</span>
+                                <span className="text-[8px] md:text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"> <Users width={12} />Total Fleets</span>
                             </div>
-                            <div className="card border border-accent p-2 rounded-sm text-md font-bold flex items-center justify-center flex-col">
+                            <div className="card border border-accent p-1 flex-1 md:p-2 rounded-sm md:text-md font-bold flex items-center justify-center flex-col">
                                 <strong>{data.average_speed}</strong>
-                                <span className="text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"><Rocket width={12} /> Average Speed</span>
+                                <span className="text-[8px] md:text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"><Rocket width={12} /> Average Speed</span>
                             </div>
-                            <div className="card border border-accent p-2 rounded-sm text-md font-bold flex items-center justify-center flex-col">
+                            <div className="card border border-accent p-1 flex-1 md:p-2 rounded-sm md:text-md font-bold flex items-center justify-center flex-col">
                                 <strong>{data.en_route}</strong>
-                                <span className="text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"><BaggageClaim width={12} /> Moving</span>
+                                <span className="text-[8px] md:text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"><BaggageClaim width={12} /> Moving</span>
                             </div>
-                            <div className="card border border-accent p-2 rounded-sm text-md font-bold flex items-center justify-center flex-col">
+                            <div className="card border border-accent p-1 flex-1 md:p-2 rounded-sm md:text-md font-bold flex items-center justify-center flex-col">
                                 <strong>{new Date(data.timestamp).toLocaleTimeString([], { hour12: false, hour: "2-digit", minute: "2-digit" })}</strong>
-                                <span className="text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"><ClockArrowDown width={12} /> Last Updated</span>
+                                <span className="text-[8px] md:text-xs text-secondary-foreground font-normal flex items-center gap-1 uppercase"><ClockArrowDown width={12} /> Last Updated</span>
                             </div>
                         </div>
 
