@@ -2,7 +2,7 @@ import useVehicles from "@/features/vehicles/useVehicles";
 import { Badge } from "./ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import { Dialog, DialogHeader, DialogContent, DialogDescription, DialogTitle } from "./ui/dialog";
-import { Battery, Fuel, Gauge, MapPinned, Milestone, Navigation, PhoneCallIcon, Truck, User2 } from "lucide-react";
+import { Battery, Fuel, Gauge, History, Hourglass, MapPinned, Milestone, Navigation, PhoneCallIcon, Truck, User2 } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { Skeleton } from "./ui/skeleton";
 
@@ -84,7 +84,7 @@ const FleetTable = () => {
                         <DialogTitle className="flex items-center gap-2"><Truck /> {selectedVehicle?.vehicleNumber}</DialogTitle>
                         <DialogDescription className="flex items-center gap-1"><User2 width={12} />{selectedVehicle?.driverName} | <span className="capitalize">{selectedVehicle?.status.replace("_", " ")}</span></DialogDescription>
                     </DialogHeader>
-                    <div className="vehicle-meta grid grid-cols-2 gap-3">
+                    <div className="vehicle-meta flex flex-col gap-2 max-h-[70vh] overflow-auto md:grid md:grid-cols-2 md:gap-3">
                         <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
                             <div className="header-line flex text-xs items-center gap-1 uppercase"><Milestone width={14} />Status</div>
                             <p className="font-bold capitalize">
@@ -135,6 +135,22 @@ const FleetTable = () => {
                             </p>
                             <Progress className="h-1.5" value={selectedVehicle?.fuelLevel} />
                         </div>
+                        <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                            <div className="header-line flex text-xs items-center gap-1 uppercase"><History width={14} />Last Updated</div>
+                            <p className="font-bold mb-1">
+                                {selectedVehicle?.lastUpdated && new Date(selectedVehicle.lastUpdated).toLocaleString([], { hour12: false })}
+                            </p>
+                        </div>
+                        {
+                            selectedVehicle?.estimatedArrival && (
+                                <div className="card px-4 py-3 bg-accent rounded-lg border-l-4 border-blue-600">
+                                    <div className="header-line flex text-xs items-center gap-1 uppercase"><Hourglass width={14} />ETA</div>
+                                    <p className="font-bold mb-1">
+                                        {selectedVehicle?.estimatedArrival && new Date(selectedVehicle.estimatedArrival).toLocaleString([], { hour12: false })}
+                                    </p>
+                                </div>
+                            )
+                        }
                     </div>
                 </DialogContent>
             </Dialog>
