@@ -31,7 +31,7 @@ It fetches vehicle data via REST for the initial load and then listens to live u
 ### 1. Clone repo
 
 ```bash
-git clone https://github.com/your-username/fleet-dashboard.git
+git clone https://github.com/SwapnilRamgire/fleet-dashboard
 cd fleet-dashboard
 ```
 
