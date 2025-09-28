@@ -37,9 +37,9 @@ export interface VehiclesContextValues {
     loading: boolean;
     error: boolean;
     isUpdatingLive: boolean | null;
-    selectedVehicleId: string | null;
+    selectedVehicle: Vehicle | null;
     filter: Filters;
     updateVehicles: (newVehicle: Vehicle[]) => void;
-    setSelectedVehicleId: (newSelectedVehicleId: string | null) => void;
+    setSelectedVehicle: (newSelectedVehicle: Vehicle | null) => void;
     setFilter: (newFilter: Filters) => void;
 }

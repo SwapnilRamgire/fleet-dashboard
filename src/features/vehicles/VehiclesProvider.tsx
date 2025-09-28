@@ -4,13 +4,14 @@ import useFetchVehicles from "./useFetchVehicles";
 import { useVehicleSocket } from "./useSocketVehicles";
 import useStatistics from "../statistics/useStatistics";
 import { fetchStatistics } from "../statistics/fetchStatistics";
+import type { Vehicle } from "./types";
 
 const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const { vehicles, setVehicles, loading, error, loadVehicles, filter, setFilter } = useFetchVehicles();
     const [isUpdatingLive, setIsUpdatingLive] = useState<boolean | null>(null);
-    const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(null);
+    const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
     const { setStatistics } = useStatistics();
-    const isFirstMessage = useRef(true);
+    const isFirstMessageDone = useRef(false);
 
     useEffect(() => {
         loadVehicles();
@@ -23,19 +24,23 @@ const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     useVehicleSocket(
         (data) => {
+            console.log("message");
+
             const parsedData = JSON.parse(data);
             setVehicles(parsedData.data);
-            if (!isFirstMessage.current) {
+            if (isFirstMessageDone.current) {
+                console.log("INSIDE IF");
+
                 updateStatistics();
-                isFirstMessage.current = false;
             }
+            isFirstMessageDone.current = true;
         },
         (live) => setIsUpdatingLive(live),
         () => console.error("Socket error")
     );
 
     return (
-        <VehiclesContext.Provider value={{ vehicles, loading, error, isUpdatingLive, selectedVehicleId, filter, updateVehicles: setVehicles, setSelectedVehicleId, setFilter }}>
+        <VehiclesContext.Provider value={{ vehicles, loading, error, isUpdatingLive, selectedVehicle, filter, updateVehicles: setVehicles, setSelectedVehicle, setFilter }}>
             {children}
         </VehiclesContext.Provider>
     )

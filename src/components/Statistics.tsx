@@ -54,7 +54,7 @@ const LastUpdatedBadge = ({ lastUpdated }: { lastUpdated: string }) => {
     const nextIn = Math.max(0, UPDATE_INTERVAL / 1000 - secondsAgo);
 
     const formatTime = (secs: number) => {
-        if (secs <= 0) return `few seconds`;
+        // if (secs <= 0) return `few seconds`;
         if (secs < 60) return `~${secs}s`;
         const min = Math.floor(secs / 60);
         return `~${min}m`;
@@ -62,7 +62,7 @@ const LastUpdatedBadge = ({ lastUpdated }: { lastUpdated: string }) => {
 
     return (
         <div className="last-updated-live-lable text-xs flex gap-1 items-center mt-2 bg-accent py-1 px-2 rounded-sm">
-            <ClockFading width={14} /> Updated {formatTime(secondsAgo)} ago {secondsAgo > 0 && `| Next update in ${formatTime(nextIn)}`}
+            <ClockFading width={14} /> Updated {formatTime(secondsAgo)} ago | Next update in {formatTime(nextIn)}
         </div>
     )
 }
