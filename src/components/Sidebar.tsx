@@ -8,7 +8,7 @@ import { Label } from "./ui/label";
 const Sidebar = () => {
     const { isUpdatingLive, filter, setFilter } = useVehicles();
     return (
-        <div className="left-wrap w-[calc(20% - 16px)] pt-4 flex flex-col shrink-0 h-fit sticky top-0">
+        <div className="left-wrap w-[calc(20% - 16px)] flex flex-col shrink-0 h-fit sticky top-0">
             <LiveStatusIndicator isUpdatingLive={isUpdatingLive} />
             <VehicleFilters activeFilter={filter} onChange={(filter) => setFilter(filter)} />
         </div>
@@ -25,7 +25,7 @@ const VehicleFilters = ({ activeFilter, onChange }: { activeFilter: Filters, onC
     ];
 
     return (
-        <div className="vehicle-filters mb-4 w-full">
+        <div className="vehicle-filters pb-4 border-b mb-4 w-full">
             <Label htmlFor="filter-selector" className="text-sm mb-2"><Filter width={14} /> Filter By Status</Label>
             <Select
                 name="filter-selector"

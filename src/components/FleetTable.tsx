@@ -16,9 +16,9 @@ const FleetTable = () => {
     }
 
     return (
-        <div className="table-wrapper width-[80%] overflow-auto h-full">
+        <div className="table-wrapper width-[80%] overflow-auto h-full" style={{ scrollbarWidth: "thin" }}>
             <Table>
-                <TableHeader>
+                <TableHeader className="sticky top-0 bg-accent">
                     <TableRow>
                         <TableHead>Vehicle</TableHead>
                         <TableHead>Driver</TableHead>
