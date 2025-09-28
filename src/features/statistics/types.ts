@@ -1,4 +1,4 @@
-export interface Statisticks {
+export interface Statistics {
     total: number;
     idle: number;
     en_route: number;
@@ -7,7 +7,13 @@ export interface Statisticks {
     timestamp: string;
 }
 
-export interface StatisticksResponse {
+export interface StatisticsResponse {
     success: boolean;
-    data: Statisticks;
+    data: Statistics;
+}
+
+export interface StatisticsContextValues {
+    data: Statistics;
+    loading: boolean;
+    error: boolean;
 }

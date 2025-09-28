@@ -1,5 +1,5 @@
 import { useEffect, useState, type FC, type ReactNode } from "react";
-import VehiclesContext from "./context";
+import VehiclesContext from "./VehiclesContext";
 import useFetchVehicles from "./useFetchVehicles";
 import { useVehicleSocket } from "./useSocketVehicles";
 
@@ -15,8 +15,6 @@ const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     useVehicleSocket(
         (data) => {
             const parsedData = JSON.parse(data);
-            console.log("Setting new data", parsedData.data);
-
             setVehicles(parsedData.data);
         },
         (live) => setIsUpdatingLive(live),

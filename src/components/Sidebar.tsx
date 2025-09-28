@@ -4,18 +4,21 @@ import { cn } from "@/lib/utils";
 import { Wifi, WifiOff, Loader2, Filter } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Label } from "./ui/label";
+import Statistics from "./Statistics";
+import { Skeleton } from "./ui/skeleton";
 
 const Sidebar = () => {
-    const { isUpdatingLive, filter, setFilter } = useVehicles();
     return (
-        <div className="left-wrap w-[calc(20% - 16px)] flex flex-col shrink-0 h-fit sticky top-0">
-            <LiveStatusIndicator isUpdatingLive={isUpdatingLive} />
-            <VehicleFilters activeFilter={filter} onChange={(filter) => setFilter(filter)} />
+        <div className="left-wrap w-[calc(20%-16px)] flex flex-col shrink-0 h-fit sticky top-0">
+            <LiveStatusIndicator />
+            <VehicleFilters />
+            <Statistics />
         </div>
     )
 }
 
-const VehicleFilters = ({ activeFilter, onChange }: { activeFilter: Filters, onChange: (newFilter: Filters) => void }) => {
+const VehicleFilters = () => {
+    const { filter, setFilter, loading } = useVehicles();
 
     const FILTER_OPTIONS: { value: Filters; label: string }[] = [
         { value: "all", label: "All" },
@@ -27,27 +30,30 @@ const VehicleFilters = ({ activeFilter, onChange }: { activeFilter: Filters, onC
     return (
         <div className="vehicle-filters pb-4 border-b mb-4 w-full">
             <Label htmlFor="filter-selector" className="text-sm mb-2"><Filter width={14} /> Filter By Status</Label>
-            <Select
-                name="filter-selector"
-                value={activeFilter}
-                onValueChange={(value) => onChange(value as Filters)} // cast string → Filters
-            >
-                <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Filter By Status" />
-                </SelectTrigger>
-                <SelectContent>
-                    {FILTER_OPTIONS.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                            {opt.label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
+            {loading ? <Skeleton className="w-full h-10 mb-4"></Skeleton> :
+                <Select
+                    name="filter-selector"
+                    value={filter}
+                    onValueChange={(value) => setFilter(value as Filters)} // cast string → Filters
+                >
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Filter By Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {FILTER_OPTIONS.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            }
         </div>
     )
 }
 
-const LiveStatusIndicator = ({ isUpdatingLive }: { isUpdatingLive: boolean | null; }) => {
+const LiveStatusIndicator = () => {
+    const { isUpdatingLive } = useVehicles();
     const statusMap = {
         active: {
             icon: <Wifi className="w-5 h-5 text-green-500" />,
