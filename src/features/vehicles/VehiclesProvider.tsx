@@ -4,12 +4,11 @@ import useFetchVehicles from "./useFetchVehicles";
 import { useVehicleSocket } from "./useSocketVehicles";
 import useStatistics from "../statistics/useStatistics";
 import { fetchStatistics } from "../statistics/fetchStatistics";
-import type { Vehicle } from "./types";
 
 const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const { vehicles, setVehicles, loading, error, loadVehicles, filter, setFilter } = useFetchVehicles();
     const [isUpdatingLive, setIsUpdatingLive] = useState<boolean | null>(null);
-    const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+    const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
     const { setStatistics } = useStatistics();
     const isFirstMessageDone = useRef(false);
 
@@ -24,13 +23,9 @@ const VehiclesProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     useVehicleSocket(
         (data) => {
-            console.log("message");
-
             const parsedData = JSON.parse(data);
             setVehicles(parsedData.data);
             if (isFirstMessageDone.current) {
-                console.log("INSIDE IF");
-
                 updateStatistics();
             }
             isFirstMessageDone.current = true;
