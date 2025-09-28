@@ -5,6 +5,7 @@ import { Dialog, DialogHeader, DialogContent, DialogDescription, DialogTitle } f
 import { Battery, Fuel, Gauge, History, Hourglass, MapPinned, Milestone, Navigation, PhoneCallIcon, Truck, User2 } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { Skeleton } from "./ui/skeleton";
+import { Button } from "./ui/button";
 
 const FleetTable = () => {
     const { vehicles, filter, setSelectedVehicle, isUpdatingLive, loading } = useVehicles();
@@ -53,7 +54,9 @@ const FleetTable = () => {
                             key={vehicle.id}
                             className="cursor-pointer hover:bg-muted/50 transition animate-in cursor-default"
                         >
-                            <TableCell className="text-blue-500 underline cursor-pointer" onClick={() => setSelectedVehicle(vehicle.id)}>{vehicle.vehicleNumber}</TableCell>
+                            <TableCell>
+                                <Button variant={"ghost"} className="text-blue-500 underline cursor-pointer p-0 h-fit" onClick={() => setSelectedVehicle(vehicle.id)}>{vehicle.vehicleNumber}</Button>
+                            </TableCell>
                             <TableCell>{vehicle.driverName}</TableCell>
                             <TableCell>
                                 <Badge
